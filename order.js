@@ -82,4 +82,17 @@ const postOrderWithRecursion = (root) => {
   console.log(root.val);
 };
 
-postOrderWithRecursion(tree);
+const levelOrder = (root) => {
+  if (!root) {
+    return;
+  }
+  const queue = [root];
+  while (!!queue.length) {
+    const cur = queue.shift();
+    console.log(cur.val);
+    cur.left && queue.push(cur.left);
+    cur.right && queue.push(cur.right);
+  }
+};
+
+levelOrder(tree);

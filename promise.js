@@ -1,6 +1,6 @@
 const P = 'PENDING';
-const F = 'FULLFILLED';
-const J = 'REJECTED';
+const F = 'FULL_FILLED';
+const R = 'REJECTED';
 
 class MyPromise {
     #state = P;
@@ -12,7 +12,7 @@ class MyPromise {
             this.#setState(F, data);
         };
         const reject = (reason) => {
-            this.#setState(J, reason);
+            this.#setState(R, reason);
         };
 
         try {
@@ -31,7 +31,7 @@ class MyPromise {
     }
 
     #insertMicroTask(func) {
-        // broswer
+        // browser
         if (typeof MutationObserver === 'function') {
             const ob = new MutationObserver(func);
             const t = document.createTextNode(1);
@@ -81,7 +81,7 @@ class MyPromise {
             if (this.#state === F) {
                 this.#runOne(onFullFilled, resolve, reject);
             }
-            if (this.#state === J) {
+            if (this.#state === R) {
                 this.#runOne(onRejected, resolve, reject);
             }
         }

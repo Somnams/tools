@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@types/node": "^22.10.1",
+    "tapable": "^2.2.1"
+  }
+}

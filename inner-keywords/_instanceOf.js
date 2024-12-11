@@ -13,6 +13,6 @@ function _instanceOf(left, right) {
     }
     return false;
 }
-const user = {name: 'aa'};
+const user = { name: 'aa' };
 console.log(_instanceOf(33, Object));
 console.log(_instanceOf(user, Object));

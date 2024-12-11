@@ -3,7 +3,7 @@ function debounce(func, ms) {
     function f(...args) {
         clearTimeout(timer);
         timer = setTimeout(() => {
-           func.apply(this, args); 
+            func.apply(this, args);
         }, ms);
     }
 

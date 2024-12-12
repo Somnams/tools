@@ -1,4 +1,4 @@
-/// 1. print 1, 2, 3 after 1s
+// /// 1. print 1, 2, 3 after 1s
 
 import { ajax1, ajax2, ajax3, ajax4 } from "./mock.mjs";
 
@@ -93,3 +93,45 @@ const limitPromise = async (fetchList, max) => {
     }
 }
 limitPromise([ajax2, ajax2, ajax3, ajax4], 2);
+
+class HardMan {
+    constructor(name) {
+        this.promise = Promise.resolve().then(() => {
+            console.log('0000');
+            console.log(`Hi I am ${name}`);
+        })
+    }
+
+    rest(t) {
+        this.promise = this.promise.then(() => new Promise((resolve) => {
+            console.log(`wait ${t}s`);
+            setTimeout(() => {
+                console.log(`start from ${t}s`);
+                resolve();
+            }, t * 1000);
+        }));
+        return this;
+    }
+    learn(str) {
+        this.promise = this.promise.then(() => {
+            console.log(`Learn ${str}`);
+        });
+        return this;
+    }
+    restFirst(t) {
+        const a = this.promise;
+        this.promise = new Promise(resolve => {
+            console.log(`等待${t}秒`);
+            setTimeout(() => {
+                console.log(`Start learning after ${t} seconds`);
+                resolve();
+            }, t * 1000);
+        });
+        this.promise.then(() => a);
+        return this;
+    }
+}
+
+// new HardMan("jack")
+// new HardMan("“jack").rest(5).learn("“computer")
+new HardMan("jack").restFirst(6).learn("chinese")

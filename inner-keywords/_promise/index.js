@@ -103,27 +103,62 @@ class MyPromise {
             this.#run();
         })
     }
+
+    static allSettled(promiseList) {
+        const res = [];
+        const len = promiseList.length;
+        for (let i = 0; i < len; i++) {
+            const cur = promiseList[i];
+            Promise.resolve(cur).then(r => {
+                res.splice(i, 0, r);
+            }).catch(e => {
+                console.log(e);
+                res.splice(i, 0, e.message);
+            }).finally(() => {
+                console.log(res.length, len, res.length === len);
+                if (res.length === len) {
+                    console.log('??????');
+                    return Promise.resolve(res);
+                }
+            });
+        }
+    }
 }
 
-const p = new MyPromise((r, r2) => {
-    r2(123)
-});
+const results = Promise.allSettled([
+    Promise.resolve(33),
+    new Promise((resolve) => setTimeout(() => resolve(66), 0)),
+    99,
+    Promise.reject(new Error("一个错误")),
+  ]);
+results.then(r => console.log(r))
+  
+  // [
+  //   { status: 'fulfilled', value: 33 },
+  //   { status: 'fulfilled', value: 66 },
+  //   { status: 'fulfilled', value: 99 },
+  //   { status: 'rejected', reason: Error: 一个错误 }
+  // ]
+
+// const p = new MyPromise((r, r2) => {
+//     r2(123)
+// });
 // p.then(2222, (e) => {
 //     console.log('outer err', e);
 // }).then(a => {
 //     console.log('second then ', a);
 // });
 
-p.then((d) => {
-    console.log('outer data 1', d * 2);
-}, (e) => {
-    console.log('outer err 1', e);
-    return e;
-}).then(a => {
-    console.log('aaaaa', a);
-});
+// p.then((d) => {
+//     console.log('outer data 1', d * 2);
+// }, (e) => {
+//     console.log('outer err 1', e);
+//     return e;
+// }).then(a => {
+//     console.log('aaaaa', a);
+// });
 
-console.log('sync script');
+// console.log('sync script');
 
 
 // const p1 = new Promise((r1, r2) => {

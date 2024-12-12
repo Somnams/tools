@@ -27,3 +27,17 @@ Array.prototype._reduce = function (fn, initialVal) {
 const b = a._reduce((p, c) => { return p + c });
 const b1 = a._reduce((p, c) => { return p + c });
 console.log(b, b1);
+
+/// filter
+Array.prototype._filter = function (fn, thisArg) {
+    const arr = this;
+    const res = [];
+    for (let i = 0; i < arr.length; i++) {
+        const v = fn.call(thisArg, arr[i], i, arr);
+        v && res.push(arr[i]);
+    }
+    return res;
+}
+const c = a.filter(i => i >= 2);
+const c1 = a._filter(i => i >= 2);
+console.log(c, c1);
